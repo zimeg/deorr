@@ -1,0 +1,10 @@
+# Development dependencies
+.direnv
+
+# Build artifacts
+build
+
+# Testing leftovers
+coverage.html
+coverage.out
+records/*.out

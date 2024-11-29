@@ -1,0 +1,26 @@
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: Test
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+jobs:
+  test:
+    name: Check order and other sorts of things
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      - name: Install a flaked Nix
+        uses: DeterminateSystems/nix-installer-action@v16
+      - name: Install dependencies
+        run: nix develop -c go get
+      - name: Build order
+        run: nix develop -c make build
+      - name: Run tests
+        run: nix develop -c make test
+      - name: Perform benchmarks
+        run: nix develop -c make benchmark
+      - name: Upload coverage results
+        uses: codecov/codecov-action@v5
